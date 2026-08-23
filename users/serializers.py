@@ -21,3 +21,9 @@ class UserSignupSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = "__all__"
+        read_only_fields = ["id", "email"]

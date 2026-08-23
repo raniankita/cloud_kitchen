@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-206_-fz=ka)ve_^kqwd61wz9)d6(qz!gcro_3=#6-tm9zr7ujq'
+# Load SECRET_KEY from env first, then from local_settings.py (not checked in)
+SECRET_KEY = os.environ.get('SECRET_KEY') or globals().get('SECRET_KEY') or 'django-insecure-placeholder-change-me'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,7 +61,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', globals().get('CORS_ALLOW_ALL_ORIGINS', 'False')) in ['True', 'true', True]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -144,17 +145,17 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', globals().get('CELERY_BROKER_URL', "redis://localhost:6379/0"))
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', globals().get('CELERY_RESULT_BACKEND', "redis://localhost:6379/0"))
 
-# Email (example Gmail)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "mail.spotonmate.com.au"
-EMAIL_PORT = 465   
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = "donotreply@spotonmate.com.au"
-EMAIL_HOST_PASSWORD = "jXe{4]2jxv7z" 
-DEFAULT_FROM_EMAIL = "donotreply@spotonmate.com.au"
+# Email configuration: load from env or local_settings for secrecy
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', globals().get('EMAIL_BACKEND', "django.core.mail.backends.smtp.EmailBackend"))
+EMAIL_HOST = os.environ.get('EMAIL_HOST', globals().get('EMAIL_HOST', 'localhost'))
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', globals().get('EMAIL_PORT', 25)))
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', globals().get('EMAIL_USE_SSL', False)) in ['True', 'true', True]
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', globals().get('EMAIL_HOST_USER', ''))
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', globals().get('EMAIL_HOST_PASSWORD', ''))
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', globals().get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER))
 
 
 SIMPLE_JWT = {

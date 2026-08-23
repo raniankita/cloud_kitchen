@@ -32,4 +32,7 @@ urlpatterns = [
     # JWT Auth routes
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Login
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh
+
+    # User Update
+    path("profile/", UserProfileView.as_view(), name="user-profile"),
 ]

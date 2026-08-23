@@ -10,5 +10,4 @@ def send_welcome_email(user_email, username):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user_email]
     send_mail(subject, message, email_from, recipient_list)
-    print("Email sent")
     return "Email sent"

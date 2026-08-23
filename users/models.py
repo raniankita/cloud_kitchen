@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     is_kitchen = models.BooleanField(default=False)
     is_delivery_agent = models.BooleanField(default=False)
     phone = models.CharField(max_length=15, blank=True, null=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
 
     def __str__(self):
         return self.username

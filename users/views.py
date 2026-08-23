@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -69,3 +70,12 @@ class LogoutView(APIView):
 
         except TokenError:
             return Response({"error": "Invalid or expired token."}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        # return the currently logged-in user
+        return self.request.user
