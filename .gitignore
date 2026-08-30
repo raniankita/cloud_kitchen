@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+migrations
 *.py[codz]
 *$py.class
 
@@ -58,6 +59,7 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
+media
 db.sqlite3
 db.sqlite3-journal
 
